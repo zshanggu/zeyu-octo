@@ -42,6 +42,8 @@ flags.DEFINE_bool(
     "Whether pre-trained transformer weights should be frozen.",
 )
 
+# ZEYU
+flags.DEFINE_bool("debug", False, "Debug config (no wandb logging)")
 
 def main(_):
     assert (
@@ -52,8 +54,9 @@ def main(_):
     # prevent tensorflow from using GPU memory since it's only used for data loading
     tf.config.set_visible_devices([], "GPU")
 
+    # ZEYU
     # setup wandb for logging
-    wandb.init(name="finetune_aloha", project="octo")
+    wandb.init(name="finetune_aloha", project="octo", mode="disabled" if FLAGS.debug else None)
 
     # load pre-trained model
     logging.info("Loading pre-trained model...")
